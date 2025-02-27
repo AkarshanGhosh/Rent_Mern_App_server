@@ -6,12 +6,12 @@ const {
   changePassword,
   redeemPoints
 } = require("../controller/userController");
-const { verifyUser } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **User Routes**
-router.get("/profile", verifyUser, getUserProfile);
-router.put("/update", verifyUser, updateUserProfile);
-router.put("/change-password", verifyUser, changePassword);
-router.put("/redeem", verifyUser, redeemPoints);
+router.get("/profile", userAuth, getUserProfile);
+router.put("/update", userAuth, updateUserProfile);
+router.put("/change-password", userAuth, changePassword);
+router.put("/redeem", userAuth, redeemPoints);
 
 module.exports = router;

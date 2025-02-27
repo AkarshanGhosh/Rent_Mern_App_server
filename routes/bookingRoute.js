@@ -7,15 +7,15 @@ const {
   updateBookingStatus,
   cancelBooking,
 } = require("../controller/bookingController");
-const { verifyUser } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **Renter Routes**
-router.post("/", verifyUser, createBooking);
-router.get("/user", verifyUser, getUserBookings);
-router.put("/cancel/:id", verifyUser, cancelBooking);
+router.post("/", userAuth, createBooking);
+router.get("/user", userAuth, getUserBookings);
+router.put("/cancel/:id", userAuth, cancelBooking);
 
 // **Provider Routes**
-router.get("/provider", verifyUser, getProviderBookings);
-router.put("/status/:id", verifyUser, updateBookingStatus);
+router.get("/provider", userAuth, getProviderBookings);
+router.put("/status/:id", userAuth, updateBookingStatus);
 
 module.exports = router;

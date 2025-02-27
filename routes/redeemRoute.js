@@ -5,13 +5,13 @@ const {
   getRedeemHistory,
   approveRedeemRequest,
 } = require("../controller/redeemController");
-const { verifyUser, verifyAdmin } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **User Routes**
-router.post("/", verifyUser, redeemPoints);
-router.get("/history", verifyUser, getRedeemHistory);
+router.post("/", userAuth, redeemPoints);
+router.get("/history", userAuth, getRedeemHistory);
 
 // **Admin Routes**
-router.put("/approve/:id", verifyAdmin, approveRedeemRequest);
+router.put("/approve/:id", userAuth, approveRedeemRequest);
 
 module.exports = router;

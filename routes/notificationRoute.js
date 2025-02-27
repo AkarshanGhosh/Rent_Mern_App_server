@@ -6,14 +6,14 @@ const {
   markNotificationAsRead,
   deleteNotification,
 } = require("../controller/notificationController");
-const { verifyUser, verifyAdmin } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **User Routes**
-router.get("/", verifyUser, getUserNotifications);
-router.put("/:id/read", verifyUser, markNotificationAsRead);
-router.delete("/:id", verifyUser, deleteNotification);
+router.get("/", userAuth, getUserNotifications);
+router.put("/:id/read", userAuth, markNotificationAsRead);
+router.delete("/:id", userAuth, deleteNotification);
 
 // **Admin/System Routes**
-router.post("/", verifyAdmin, sendNotification);
+router.post("/", userAuth, sendNotification);
 
 module.exports = router;

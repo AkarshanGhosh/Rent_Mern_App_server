@@ -9,7 +9,7 @@ const {
   getItemsByCategory,
   searchItems
 } = require("../controller/itemController");
-const { verifyUser } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **Public Routes**
 router.get("/", getAllItems);
@@ -18,8 +18,8 @@ router.get("/category/:category", getItemsByCategory);
 router.get("/search", searchItems);
 
 // **Provider Routes**
-router.post("/", verifyUser, createItem);
-router.put("/:id", verifyUser, updateItem);
-router.delete("/:id", verifyUser, deleteItem);
+router.post("/", userAuth, createItem);
+router.put("/:id", userAuth, updateItem);
+router.delete("/:id", userAuth, deleteItem);
 
 module.exports = router;

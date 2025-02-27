@@ -5,13 +5,13 @@ const {
   getItemReviews,
   deleteReview,
 } = require("../controller/reviewController");
-const { verifyUser, verifyAdmin } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **User Routes**
-router.post("/", verifyUser, addReview);
+router.post("/", userAuth, addReview);
 router.get("/:itemId", getItemReviews);
 
 // **Admin Routes**
-router.delete("/:id", verifyAdmin, deleteReview);
+router.delete("/:id", userAuth, deleteReview);
 
 module.exports = router;

@@ -7,15 +7,15 @@ const {
   getUserPayments,
   refundSecurityDeposit,
 } = require("../controller/paymentController");
-const { verifyUser, verifyAdmin } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **User Routes**
-router.post("/", verifyUser, processPayment);
-router.get("/user", verifyUser, getUserPayments);
-router.get("/:id", verifyUser, getPaymentById);
+router.post("/", userAuth, processPayment);
+router.get("/user", userAuth, getUserPayments);
+router.get("/:id", userAuth, getPaymentById);
 
 // **Admin Routes**
-router.put("/status/:id", verifyAdmin, updatePaymentStatus);
-router.put("/refund/:id", verifyAdmin, refundSecurityDeposit);
+router.put("/status/:id", userAuth, updatePaymentStatus);
+router.put("/refund/:id", userAuth, refundSecurityDeposit);
 
 module.exports = router;

@@ -5,11 +5,11 @@ const {
   login,
   getUserData,
 } = require("../controller/authController");
-const { verifyUser } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **User Authentication Routes**
 router.post("/register", signup);
 router.post("/login", login);
-router.get("/me", verifyUser, getUserData);
+router.get("/me", userAuth, getUserData);
 
 module.exports = router;

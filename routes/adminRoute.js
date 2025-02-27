@@ -6,12 +6,12 @@ const {
   updateUserRole,
   addPoints
 } = require("../controller/adminController");
-const { verifyAdmin } = require("../middleware/authMiddleware");
+const userAuth = require('../middleware/UserAuth.js');
 
 // **Admin Routes**
-router.get("/all", verifyAdmin, getAllUsers);
-router.delete("/:id", verifyAdmin, deleteUser);
-router.put("/role/:id", verifyAdmin, updateUserRole);
-router.put("/points/:id", verifyAdmin, addPoints);
+router.get("/all", userAuth, getAllUsers);
+router.delete("/:id", userAuth, deleteUser);
+router.put("/role/:id", userAuth, updateUserRole);
+router.put("/points/:id", userAuth, addPoints);
 
 module.exports = router;
