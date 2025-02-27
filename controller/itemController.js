@@ -4,15 +4,20 @@ const User = require("../models/User");
 // **Create New Item (Provider Only)**
 exports.createItem = async (req, res) => {
   try {
+    console.log("User from req.user:", req.user); // Debugging
+
+    if (!req.user) {
+      return res.status(403).json({ message: "Unauthorized request. User data is missing." });
+    }
+
     const { title, description, category, rental_price, location, security_deposit, images } = req.body;
 
-    const user = await User.findById(req.user.id);
-    if (!user || user.role !== "provider") {
+    if (req.user.role !== "provider") {
       return res.status(403).json({ message: "Only providers can upload items" });
     }
 
     const newItem = new Item({
-      provider: req.user.id,
+      provider: req.user._id, // Changed from `req.user.id`
       title,
       description,
       category,
@@ -26,8 +31,10 @@ exports.createItem = async (req, res) => {
     res.status(201).json({ message: "Item added successfully", newItem });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
+    console.log(error);
   }
 };
+
 
 // **Get All Available Items (Public)**
 exports.getAllItems = async (req, res) => {
