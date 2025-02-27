@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+import { verify } from "jsonwebtoken";
 
 const UserAuth = async (req, res, next) => {
     try {
@@ -17,7 +17,7 @@ const UserAuth = async (req, res, next) => {
         }
 
         // Verify and decode the token
-        const tokenDecoder = jwt.verify(token, process.env.JWT_SECRET);
+        const tokenDecoder = verify(token, process.env.JWT_SECRET);
 
         // Attach the user ID to the request object
         if (tokenDecoder.id) {
@@ -34,4 +34,4 @@ const UserAuth = async (req, res, next) => {
     }
 };
 
-module.exports = UserAuth;
+export default UserAuth;
