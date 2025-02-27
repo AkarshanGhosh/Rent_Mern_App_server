@@ -17,7 +17,7 @@ const UserAuth = async (req, res, next) => {
         }
 
         // Verify and decode the token
-        const tokenDecoder = verify(token, process.env.JWT_SECRET);
+        const tokenDecoder = jwt.verify(token, process.env.JWT_SECRET);
 
         // Attach the user ID to the request object
         if (tokenDecoder.id) {
