@@ -17,7 +17,7 @@ exports.createItem = async (req, res) => {
     }
 
     const newItem = new Item({
-      provider: req.user._id, // Changed from `req.user.id`
+      provider: req.user._id, // Ensure ObjectId is used
       title,
       description,
       category,
@@ -30,11 +30,10 @@ exports.createItem = async (req, res) => {
     await newItem.save();
     res.status(201).json({ message: "Item added successfully", newItem });
   } catch (error) {
+    console.error("Create Item Error:", error);
     res.status(500).json({ message: "Server error", error });
-    console.log(error);
   }
 };
-
 
 // **Get All Available Items (Public)**
 exports.getAllItems = async (req, res) => {
@@ -42,6 +41,7 @@ exports.getAllItems = async (req, res) => {
     const items = await Item.find({ availability_status: "Available" });
     res.status(200).json(items);
   } catch (error) {
+    console.error("Get All Items Error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -54,6 +54,7 @@ exports.getItemById = async (req, res) => {
 
     res.status(200).json(item);
   } catch (error) {
+    console.error("Get Item By ID Error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -64,16 +65,17 @@ exports.updateItem = async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Item not found" });
 
-    if (item.provider.toString() !== req.user.id) {
+    // Ensure ObjectId comparison is done properly
+    if (item.provider.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Unauthorized to update this item" });
     }
 
-    const updates = req.body;
-    Object.assign(item, updates);
-
+    Object.assign(item, req.body);
     await item.save();
+
     res.status(200).json({ message: "Item updated successfully", item });
   } catch (error) {
+    console.error("Update Item Error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -84,13 +86,15 @@ exports.deleteItem = async (req, res) => {
     const item = await Item.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Item not found" });
 
-    if (item.provider.toString() !== req.user.id) {
+    // Ensure ObjectId comparison is done properly
+    if (item.provider.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Unauthorized to delete this item" });
     }
 
-    await item.remove();
+    await item.deleteOne();
     res.status(200).json({ message: "Item deleted successfully" });
   } catch (error) {
+    console.error("Delete Item Error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -103,6 +107,7 @@ exports.getItemsByCategory = async (req, res) => {
 
     res.status(200).json(items);
   } catch (error) {
+    console.error("Get Items By Category Error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -118,6 +123,7 @@ exports.searchItems = async (req, res) => {
 
     res.status(200).json(items);
   } catch (error) {
+    console.error("Search Items Error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
