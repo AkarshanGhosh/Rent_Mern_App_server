@@ -30,8 +30,8 @@ const itemSchema = new mongoose.Schema(
       required: true,
     },
     images: {
-      type: [String], // Array of image URLs
-      default: ["https://cdn-icons-png.flaticon.com/512/16/16410.png"], // Default placeholder
+      type: String, // Changed from Array to Single String
+      
     },
     rental_price: {
       type: String,
@@ -56,7 +56,7 @@ const itemSchema = new mongoose.Schema(
     },
     security_deposit: {
       type: String,
-      default: 0,
+      default: "0",
     },
     is_featured: {
       type: Boolean,

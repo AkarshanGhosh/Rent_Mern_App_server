@@ -12,7 +12,7 @@ const {
 const userAuth = require('../middleware/UserAuth.js');
 
 // **Public Routes**
-router.get("/", getAllItems);
+router.get("/allitems", getAllItems);
 router.get("/:id", getItemById);
 router.get("/category/:category", getItemsByCategory);
 router.get("/search", searchItems);
