@@ -9,7 +9,7 @@ const {
 const userAuth = require('../middleware/UserAuth.js');
 
 // **User Routes**
-router.get("/profile", userAuth, getUserProfile);
+router.get("/profile/:id", userAuth, getUserProfile);
 router.put("/update", userAuth, updateUserProfile);
 router.put("/change-password", userAuth, changePassword);
 router.put("/redeem", userAuth, redeemPoints);
